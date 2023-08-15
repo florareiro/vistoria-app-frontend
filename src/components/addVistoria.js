@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createTutorial } from "../actions/tutorials";
+
 import ImageUpload from "./imageUpload";
+import { createVistoria } from "../actions/vistorias";
 
 const AddVistoria = () => {
   const initialVistoriaState = {
@@ -33,7 +34,7 @@ const AddVistoria = () => {
       foto_banco: "",
     },
   };
-  const [tutorial, setTutorial] = useState(initialVistoriaState);
+  const [vistoria, setVistoria] = useState(initialVistoriaState);
   const [submitted, setSubmitted] = useState(false);
 
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const AddVistoria = () => {
     const { name, value } = event.target;
     const [category, field] = name.split(".");
 
-    setTutorial((prevState) => ({
+    setVistoria((prevState) => ({
       ...prevState,
       [category]: {
         ...prevState[category],
@@ -51,17 +52,17 @@ const AddVistoria = () => {
     }));
   };
 
-  const saveTutorial = () => {
-    const tutorialData = {
-      condutor: tutorial.condutor,
-      veiculo: tutorial.veiculo,
-      fotos_veiculo: tutorial.fotos_veiculo,
+  const saveVistoria = () => {
+    const vistoriaData = {
+      condutor: vistoria.condutor,
+      veiculo: vistoria.veiculo,
+      fotos_veiculo: vistoria.fotos_veiculo,
     };
 
-    dispatch(createTutorial(tutorialData))
+    dispatch(createVistoria(vistoriaData))
       .then((data) => {
-        console.log("Data from createTutorial:", data);
-        setTutorial(data);
+        console.log("Data from createVistoria:", data);
+        setVistoria(data);
         setSubmitted(true);
       })
       .catch((e) => {
@@ -69,8 +70,8 @@ const AddVistoria = () => {
       });
   };
 
-  const newTutorial = () => {
-    setTutorial(initialVistoriaState);
+  const newVistoria = () => {
+    setVistoria(initialVistoriaState);
     setSubmitted(false);
   };
 
@@ -79,7 +80,7 @@ const AddVistoria = () => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const imageBase64 = event.target.result;
-      setTutorial((prevState) => ({
+      setVistoria((prevState) => ({
         ...prevState,
         condutor: {
           ...prevState.condutor,
@@ -99,12 +100,12 @@ const AddVistoria = () => {
       {submitted ? (
         <div>
           <h4>Documento criado com sucesso!</h4>
-          <button className="btn btn-success" onClick={newTutorial}>
+          <button className="btn btn-success" onClick={newVistoria}>
             Add
           </button>
         </div>
       ) : (
-        <div>
+        <div className="mb-5">
           <div className="form-group">
             <h2>Dados do condutor</h2>
             <label htmlFor="condutor.nome">Nome</label>
@@ -113,7 +114,7 @@ const AddVistoria = () => {
               className="form-control"
               id="condutor.nome"
               required
-              value={tutorial.condutor ? tutorial.condutor.nome : ""}
+              value={vistoria.condutor ? vistoria.condutor.nome : ""}
               onChange={handleInputChange}
               name="condutor.nome"
             />
@@ -123,7 +124,7 @@ const AddVistoria = () => {
               className="form-control"
               id="condutor.cpf"
               required
-              value={tutorial.condutor ? tutorial.condutor.cpf : ""}
+              value={vistoria.condutor ? vistoria.condutor.cpf : ""}
               onChange={handleInputChange}
               name="condutor.cpf"
             />
@@ -133,7 +134,7 @@ const AddVistoria = () => {
               className="form-control"
               id="condutor.rg"
               required
-              value={tutorial.condutor ? tutorial.condutor.rg : ""}
+              value={vistoria.condutor ? vistoria.condutor.rg : ""}
               onChange={handleInputChange}
               name="condutor.rg"
             />
@@ -143,7 +144,7 @@ const AddVistoria = () => {
               className="form-control"
               id="condutor.telefone"
               required
-              value={tutorial.condutor ? tutorial.condutor.telefone : ""}
+              value={vistoria.condutor ? vistoria.condutor.telefone : ""}
               onChange={handleInputChange}
               name="condutor.telefone"
             />
@@ -153,7 +154,7 @@ const AddVistoria = () => {
               className="form-control"
               id="condutor.endereco"
               required
-              value={tutorial.condutor ? tutorial.condutor.endereco : ""}
+              value={vistoria.condutor ? vistoria.condutor.endereco : ""}
               onChange={handleInputChange}
               name="condutor.endereco"
             />
@@ -163,27 +164,21 @@ const AddVistoria = () => {
               className="form-control"
               id="condutor.cnh"
               required
-              value={tutorial.condutor ? tutorial.condutor.cnh : ""}
+              value={vistoria.condutor ? vistoria.condutor.cnh : ""}
               onChange={handleInputChange}
               name="condutor.cnh"
             />
-            <label htmlFor="condutor.selfie">selfie</label>
-            {/* <input
-              type="text"
-              className="form-control"
-              id="condutor.selfie"
-              required
-              value={tutorial.condutor ? tutorial.condutor.selfie : ""}
-              onChange={handleInputChange}
-              name="condutor.selfie"
-            /> */}
+            <label htmlFor="condutor.selfie" className="my-2">
+              Selfie do motorista
+            </label>
+
             <ImageUpload
               onImageSelected={(imageData) =>
                 handleImageUpload("selfie", imageData)
               }
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-5">
             <h2>Dados do veiculo</h2>
             <label htmlFor="veiculo.placa">Placa</label>
             <input
@@ -191,7 +186,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.placa"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.placa : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.placa : ""}
               onChange={handleInputChange}
               name="veiculo.placa"
             />
@@ -201,7 +196,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.chassi"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.chassi : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.chassi : ""}
               onChange={handleInputChange}
               name="veiculo.chassi"
             />
@@ -211,7 +206,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.renavam"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.renavam : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.renavam : ""}
               onChange={handleInputChange}
               name="veiculo.renavam"
             />
@@ -221,7 +216,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.uf"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.uf : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.uf : ""}
               onChange={handleInputChange}
               name="veiculo.uf"
             />
@@ -231,7 +226,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.marca"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.marca : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.marca : ""}
               onChange={handleInputChange}
               name="veiculo.marca"
             />
@@ -241,7 +236,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.modelo"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.modelo : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.modelo : ""}
               onChange={handleInputChange}
               name="veiculo.modelo"
             />
@@ -251,7 +246,7 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.km"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.km : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.km : ""}
               onChange={handleInputChange}
               name="veiculo.km"
             />
@@ -263,42 +258,52 @@ const AddVistoria = () => {
               className="form-control"
               id="veiculo.nivel_combustivel"
               required
-              value={tutorial.veiculo ? tutorial.veiculo.nivel_combustivel : ""}
+              value={vistoria.veiculo ? vistoria.veiculo.nivel_combustivel : ""}
               onChange={handleInputChange}
               name="veiculo.nivel_combustivel"
             />
           </div>
-          <div className="form-group">
+          <div className="form-group my-3">
             <h2>Fotos do veículo</h2>
-            <label htmlFor="fotos_veiculo.foto_placa">Placa</label>
+            <label htmlFor="fotos_veiculo.foto_placa" className="my-2">
+              Placa
+            </label>
             <ImageUpload
               onImageSelected={(imageData) =>
                 handleImageUpload("foto_placa", imageData)
               }
             />
 
-            <label htmlFor="fotos_veiculo.foto_dianteira">Dianteira</label>
+            <label htmlFor="fotos_veiculo.foto_dianteira" className="my-2">
+              Dianteira
+            </label>
             <ImageUpload
               onImageSelected={(imageData) =>
                 handleImageUpload("foto_dianteira", imageData)
               }
             />
 
-            <label htmlFor="fotos_veiculo.foto_traseira">Traseira</label>
+            <label htmlFor="fotos_veiculo.foto_traseira" className="my-2">
+              Traseira
+            </label>
             <ImageUpload
               onImageSelected={(imageData) =>
                 handleImageUpload("foto_traseira", imageData)
               }
             />
 
-            <label htmlFor="fotos_veiculo.foto_hodometro">Hodometro</label>
+            <label htmlFor="fotos_veiculo.foto_hodometro" className="my-2">
+              Hodometro
+            </label>
             <ImageUpload
               onImageSelected={(imageData) =>
                 handleImageUpload("foto_hodometro", imageData)
               }
             />
 
-            <label htmlFor="fotos_veiculo.foto_banco">Banco Dianteira</label>
+            <label htmlFor="fotos_veiculo.foto_banco" className="my-2">
+              Banco Dianteira
+            </label>
             <ImageUpload
               onImageSelected={(imageData) =>
                 handleImageUpload("foto_banco", imageData)
@@ -308,7 +313,7 @@ const AddVistoria = () => {
 
           {/* Other input fields for driver information, vehicle information, and vehicle photos */}
 
-          <button onClick={saveTutorial} className="btn btn-success mt-2">
+          <button onClick={saveVistoria} className="btn btn-success  mb-5">
             Salvar
           </button>
         </div>

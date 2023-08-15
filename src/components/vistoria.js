@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateTutorial, deleteTutorial } from "../actions/tutorials";
-import TutorialDataService from "../services/tutorial.service";
 
-const Tutorial = (props) => {
-  const initialTutorialState = {
+import VistoriaService from "../services/vistoria.service";
+
+const Vistoria = (props) => {
+  const initialVistoriaState = {
     id: null,
     condutor: {
       nome: "",
@@ -16,15 +16,15 @@ const Tutorial = (props) => {
       selfie: "",
     },
   };
-  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [currentVistoria, setCurrentVistoria] = useState(initialVistoriaState);
   const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
 
-  const getTutorial = (id) => {
-    TutorialDataService.get(id)
+  const getVistoria = (id) => {
+    VistoriaService.get(id)
       .then((response) => {
-        setCurrentTutorial(response.data);
+        setCurrentVistoria(response.data);
         console.log(response.data);
       })
       .catch((e) => {
@@ -33,17 +33,17 @@ const Tutorial = (props) => {
   };
 
   useEffect(() => {
-    getTutorial(props.match.params.id);
+    getVistoria(props.match.params.id);
   }, [props.match.params.id]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setCurrentTutorial({ ...currentTutorial, [name]: value });
+    setCurrentVistoria({ ...currentVistoria, [name]: value });
   };
 
   return (
     <div>
-      {currentTutorial ? (
+      {currentVistoria ? (
         <div className="edit-form">
           <h4>Vistoria</h4>
           <form>
@@ -55,7 +55,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.nome"
                 name="condutor.nome"
-                value={currentTutorial.condutor.nome}
+                value={currentVistoria.condutor.nome}
                 onChange={handleInputChange}
               />
               <label htmlFor="condutor.nome">CPF</label>
@@ -64,7 +64,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.cpf"
                 name="condutor.cpf"
-                value={currentTutorial.condutor.cpf}
+                value={currentVistoria.condutor.cpf}
                 onChange={handleInputChange}
               />
               <label htmlFor="condutor.rg">RG</label>
@@ -73,7 +73,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.rg"
                 name="condutor.rg"
-                value={currentTutorial.condutor.rg}
+                value={currentVistoria.condutor.rg}
                 onChange={handleInputChange}
               />
               <label htmlFor="condutor.telefone">Telefone</label>
@@ -82,7 +82,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.telefone"
                 name="condutor.telefone"
-                value={currentTutorial.condutor.telefone}
+                value={currentVistoria.condutor.telefone}
                 onChange={handleInputChange}
               />
               <label htmlFor="condutor.endereco">Endereço</label>
@@ -91,7 +91,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.endereco"
                 name="condutor.endereco"
-                value={currentTutorial.condutor.endereco}
+                value={currentVistoria.condutor.endereco}
                 onChange={handleInputChange}
               />
 
@@ -101,7 +101,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.cnh"
                 name="condutor.cnh"
-                value={currentTutorial.condutor.cnh}
+                value={currentVistoria.condutor.cnh}
                 onChange={handleInputChange}
               />
               <label htmlFor="condutor.selfie">selfie</label>
@@ -111,29 +111,10 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="condutor.selfie"
                 name="condutor.selfie"
-                value={currentTutorial.condutor.selfie}
+                value={currentVistoria.condutor.selfie}
                 onChange={handleInputChange}
               />
             </div>
-            {/* <div className="form-group">
-              <h2>Dados do Veículo</h2>
-              <label htmlFor="description">Placa</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                value={currentTutorial.description}
-                onChange={handleInputChange}
-              />
-            </div> */}
-            {/* 
-            <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {currentTutorial.published ? "Published" : "Pending"}
-            </div> */}
           </form>
 
           <p>{message}</p>
@@ -148,4 +129,4 @@ const Tutorial = (props) => {
   );
 };
 
-export default Tutorial;
+export default Vistoria;

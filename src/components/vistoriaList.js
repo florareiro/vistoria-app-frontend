@@ -1,66 +1,66 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { retrieveTutorials } from "../actions/tutorials";
-import PrintButton from "./print";
 
-const TutorialsList = () => {
-  const [currentTutorial, setCurrentTutorial] = useState(null);
+import PrintButton from "./print";
+import { retrieveVistorias } from "../actions/vistorias";
+
+const VistoriasList = () => {
+  const [currentVistoria, setCurrentVistoria] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
-  const tutorials = useSelector((state) => state.tutorials);
+  const vistorias = useSelector((state) => state.vistorias);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(retrieveTutorials());
+    dispatch(retrieveVistorias());
   }, [dispatch]);
 
   const refreshData = () => {
-    setCurrentTutorial(null);
+    setCurrentVistoria(null);
     setCurrentIndex(-1);
   };
 
-  const setActiveTutorial = (tutorial, index) => {
-    setCurrentTutorial(tutorial);
+  const setActiveVistoria = (vistoria, index) => {
+    setCurrentVistoria(vistoria);
     setCurrentIndex(index);
   };
 
   return (
-    <div className="list row">
+    <div className="list row h-100">
       <div className="col-md-8"></div>
       <div className="col-md-6">
         <h4>Histórico de Vistorias</h4>
 
         <ul className="list-group">
-          {tutorials &&
-            tutorials.map((tutorial, index) => (
+          {vistorias &&
+            vistorias.map((vistoria, index) => (
               <>
                 <li
                   className={
                     "list-group-item my-2" +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => setActiveTutorial(tutorial, index)}
+                  onClick={() => setActiveVistoria(vistoria, index)}
                   key={index}
                 >
-                  id: {tutorial.id}
+                  id: {vistoria.id}
                 </li>
               </>
             ))}
         </ul>
       </div>
       <div className="col-md-6 my-3">
-        {currentTutorial ? (
+        {currentVistoria ? (
           <div>
-            <h4>Vistoria ID: {currentTutorial.id}</h4>
+            <h4>Vistoria ID: {currentVistoria.id}</h4>
 
             <div>
               <label>
                 <strong>Nome do Condutor</strong>
               </label>{" "}
-              {currentTutorial.nome}
+              {currentVistoria.nome}
               <img
-                src={currentTutorial.selfie}
+                src={currentVistoria.selfie}
                 alt="Selfie do Condutor"
                 style={{ maxWidth: "200px" }}
                 className="my-2  d-block"
@@ -70,10 +70,10 @@ const TutorialsList = () => {
               <label>
                 <strong>Cpf:</strong>
               </label>{" "}
-              {currentTutorial.cpf}
-              {currentTutorial.selfie.data}
+              {currentVistoria.cpf}
+              {currentVistoria.selfie.data}
             </div>
-            <PrintButton formData={currentTutorial} />
+            <PrintButton formData={currentVistoria} />
           </div>
         ) : (
           <div>
@@ -86,4 +86,4 @@ const TutorialsList = () => {
   );
 };
 
-export default TutorialsList;
+export default VistoriasList;

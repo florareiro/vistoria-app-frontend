@@ -1,11 +1,10 @@
-import { CREATE_TUTORIAL, RETRIEVE_TUTORIALS } from "./types";
+import { CREATE_VISTORIA, RETRIEVE_VISTORIAS } from "./types";
 
-import TutorialDataService from "../services/tutorial.service";
-import TutorialService from "../services/tutorial.service";
+import VistoriaService from "../services/vistoria.service";
 
-export const createTutorial = (data) => async (dispatch) => {
+export const createVistoria = (data) => async (dispatch) => {
   try {
-    console.log("Data being sent to createTutorial action:", data);
+    console.log("Data being sent to createVistoria action:", data);
 
     // const condutor = data;
     // console.log(condutor, "dados");
@@ -13,14 +12,14 @@ export const createTutorial = (data) => async (dispatch) => {
     //   throw new Error("Condutor is undefined");
     // }
 
-    const res = await TutorialDataService.create({
+    const res = await VistoriaService.create({
       ...data,
     }); // Send data as an object
 
     console.log("Response from server:", res.data);
 
     dispatch({
-      type: CREATE_TUTORIAL,
+      type: CREATE_VISTORIA,
       payload: res.data,
     });
 
@@ -32,12 +31,12 @@ export const createTutorial = (data) => async (dispatch) => {
   }
 };
 
-export const retrieveTutorials = () => (dispatch) => {
-  return TutorialService.getAll()
+export const retrieveVistorias = () => (dispatch) => {
+  return VistoriaService.getAll()
     .then((response) => {
-      console.log("Fetched tutorials:", response.data); // Log the fetched data
+      console.log("Fetched vistorias:", response.data); // Log the fetched data
       dispatch({
-        type: RETRIEVE_TUTORIALS,
+        type: RETRIEVE_VISTORIAS,
         payload: response.data,
       });
     })

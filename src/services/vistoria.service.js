@@ -1,11 +1,11 @@
 import http from "../http-common";
 
 const getAll = () => {
-  return http.get("/tutorials");
+  return http.get("/vistorias");
 };
 
 const create = (data) => {
-  const tutorial = {
+  const vistoria = {
     condutor: {
       nome: data.condutor.nome,
       cpf: data.condutor.cpf,
@@ -34,13 +34,13 @@ const create = (data) => {
     },
   };
 
-  return http.post("/tutorials", JSON.stringify(tutorial));
+  return http.post("/vistorias", JSON.stringify(vistoria));
 };
 
-const TutorialService = {
+const VistoriaService = {
   getAll,
 
   create,
 };
 
-export default TutorialService;
+export default VistoriaService;

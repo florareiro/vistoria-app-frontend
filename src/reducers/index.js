@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import tutorials from "./tutorials";
+import vistorias from "./vistorias";
 
 export default combineReducers({
-  tutorials,
+  vistorias,
 });
