@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8080/api",
+  baseURL:
+    "https://api-vistoria-app-florareiro.vercel.app/api" ||
+    "http://localhost:8080/api",
   headers: {
     "Content-type": "application/json",
   },
